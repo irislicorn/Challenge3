@@ -8,14 +8,13 @@
     
 
     var mapOptions = {
-                    // How zoomed in you want the map to start at (always required)
+                    // De zoom
                     zoom: 4,
 
-                    // The latitude and longitude to center the map (always required)
+                    // Delatitude and longitude )
                     center: new google.maps.LatLng(53.0000, 9.0000), // New York
 
-                    // How you would like to style the map. 
-                    // Style mao
+                    // Style van mijn map
                     styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"saturation":36},{"color":"#000000"},{"lightness":40}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"visibility":"on"},{"color":"#000000"},{"lightness":16}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":17},{"weight":1.2}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":20}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":21}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"},{"lightness":17}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#000000"},{"lightness":29},{"weight":0.2}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":18}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":16}]},{"featureType":"transit","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":19}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#000000"},{"lightness":17}]}]
                 };
 
@@ -26,9 +25,9 @@
 
 
 
-    // Add interaction listeners to make weather requests
+    // Voeg interactiekijkers toe om weerverzoeken te makens
     google.maps.event.addListener(map, 'idle', checkIfDataRequested);
-    // Sets up and populates the info window with details
+    // verschijnt en vult het informatievenster met details
     map.data.addListener('click', function(event) {
       infowindow.setContent(
        "<img src=" + event.feature.getProperty("icon") + ">"
@@ -50,21 +49,21 @@
     });
   }
   var checkIfDataRequested = function() {
-    // Stop extra requests being sent
+    // Stop extra requests die gezonden wordt
     while (gettingData === true) {
       request.abort();
       gettingData = false;
     }
     getCoords();
   };
-  // Get the coordinates from the Map bounds
+  //Haal de coördinaten uit de kaartgrenzen
   var getCoords = function() {
     var bounds = map.getBounds();
     var NE = bounds.getNorthEast();
     var SW = bounds.getSouthWest();
     getWeather(NE.lat(), NE.lng(), SW.lat(), SW.lng());
   };
-  // Make the weather request
+  // Maak the weather request
   var getWeather = function(northLat, eastLng, southLat, westLng) {
     gettingData = true;
     var requestString = "https://api.openweathermap.org/data/2.5/box/city?bbox="
@@ -73,12 +72,12 @@
                         + map.getZoom()
                         + "&cluster=yes&format=json"
                         + "&APPID=" + openWeatherMapKey;
-    request = new XMLHttpsRequest();
+    request = new XMLHttpRequest();
     request.onload = proccessResults;
     request.open("get", requestString, true);
     request.send();
   };
-  // Take the JSON results and proccess them
+  // Take the JSON results en proccess them
   var proccessResults = function() {
     console.log(this);
     var results = JSON.parse(this.responseText);
@@ -91,7 +90,6 @@
     }
   };
   var infowindow = new google.maps.InfoWindow();
-  // For each result that comes back, convert the data to geoJSON
   var jsonToGeoJson = function (weatherItem) {
     var feature = {
       type: "Feature",
