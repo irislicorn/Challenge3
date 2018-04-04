@@ -72,7 +72,7 @@
                         + map.getZoom()
                         + "&cluster=yes&format=json"
                         + "&APPID=" + openWeatherMapKey;
-    request = new XMLHttpRequest();
+    var equest = new XMLHttpRequest();
     request.onload = proccessResults;
     request.open("get", requestString, true);
     request.send();
