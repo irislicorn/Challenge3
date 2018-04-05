@@ -72,7 +72,7 @@
                         + map.getZoom()
                         + "&cluster=yes&format=json"
                         + "&APPID=" + openWeatherMapKey;
-    var equest = new XMLHttpRequest();
+    request = new XMLHttpRequest();
     request.onload = proccessResults;
     request.open("get", requestString, true);
     request.send();
@@ -113,19 +113,19 @@
         coordinates: [weatherItem.coord.Lon, weatherItem.coord.Lat]
       }
     };
-    // Set the custom marker icon
+    // zet Marker icon
     map.data.setStyle(function(feature) {
       return {
         icon: {
           url: feature.getProperty('icon'),
-          anchor: new google.maps.Circle(25, 25)
+          anchor: new google.maps.Point(25, 25)
         }
       };
     });
     // returns object
     return feature;
   };
-  // Add the markers to the map
+  // Voeg markers toe
   var drawIcons = function (weather) {
      map.data.addGeoJson(geoJSON);
      // Set the flag to finished
