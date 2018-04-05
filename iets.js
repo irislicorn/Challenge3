@@ -118,7 +118,7 @@
       return {
         icon: {
           url: feature.getProperty('icon'),
-          anchor: new google.maps.Point(25, 25)
+          anchor: new google.maps.Circle(25, 25)
         }
       };
     });
